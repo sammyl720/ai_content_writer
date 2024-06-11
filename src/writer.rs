@@ -9,8 +9,8 @@ pub struct Writer {
 }
 
 impl Writer {
-    pub fn new() -> Self {
-        let client = create_openai_client();
+    pub fn new(openai_api_key: String) -> Self {
+        let client = create_openai_client(openai_api_key);
 
         Self {
             system: None,

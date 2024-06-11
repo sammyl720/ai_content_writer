@@ -30,7 +30,7 @@ pub trait Agent {
             .chat()
             .create(
                 CreateChatCompletionRequestArgs::default()
-                    .model("gpt-40")
+                    .model("gpt-4o")
                     .messages(vec![
                         ChatCompletionRequestMessage::System(
                             ChatCompletionRequestSystemMessageArgs::default()
@@ -50,8 +50,6 @@ pub trait Agent {
                 // we extract the first one
                 res.choices[0].message.content.clone().unwrap()
             })?;
-
-        println!("Retrieved result from prompt: {res}");
 
         Ok(res)
     }

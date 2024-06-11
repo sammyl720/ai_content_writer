@@ -1,5 +1,3 @@
-use std::env;
-
 use async_openai::{config::OpenAIConfig, Client as OpenAIClient};
 use axum::http::HeaderMap;
 use serde_json::Value;
@@ -14,14 +12,11 @@ pub struct Researcher {
 }
 
 impl Researcher {
-    pub fn new() -> Self {
-        let openai_client = create_openai_client();
+    pub fn new(openai_api_key: String, serper_api_key: String) -> Self {
+        let openai_client = create_openai_client(openai_api_key);
 
         let mut headers = HeaderMap::new();
-        headers.insert(
-            "X-API-KEY",
-            env::var("SERPER_API_KEY").unwrap().parse().unwrap(),
-        );
+        headers.insert("X-API-KEY", serper_api_key.parse().unwrap());
         headers.insert("Content-Type", "application/json".parse().unwrap());
 
         let http_client = reqwest::Client::builder()
@@ -43,7 +38,7 @@ impl Researcher {
 
         let res = self
             .http_client
-            .post("<https::/google.server.dev/search>")
+            .post("https://google.serper.dev/search")
             .json(&json)
             .send()
             .await
